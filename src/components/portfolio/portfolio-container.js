@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 
-import PortfolioItem from './portfolio-item';
+import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
     constructor() {
@@ -31,7 +31,7 @@ export default class PortfolioContainer extends Component {
             .then(response => {
                 this.setState({
                     data: response.data.portfolio_items
-                })
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -41,12 +41,7 @@ export default class PortfolioContainer extends Component {
     portfolioItems () {
         return this.state.data.map(item => {
             // console.log("portfolio item", item);
-            return (
-                <PortfolioItem 
-                    key={item.id} 
-                    item={item}
-                />
-            );
+            return <PortfolioItem key={item.id} item={item} />;
         });
     }
 
@@ -61,9 +56,9 @@ export default class PortfolioContainer extends Component {
 
         return (
             <div className="portfolio-items-wrapper">
-                <button className="btn" onClick={() => this.handleFilter('Branding')}>Branding</button>
-                <button className="btn" onClick={() => this.handleFilter('Website Design')}>Design</button>
-                <button className="btn" onClick={() => this.handleFilter('Photo Manipulation')}>Photo Editing</button>
+                <button className="btn" onClick={() => this.handleFilter("Branding")}>Branding</button>
+                <button className="btn" onClick={() => this.handleFilter("Website Design")}>Web Design</button>
+                <button className="btn" onClick={() => this.handleFilter("UI/UX")}>UI/UX</button>
 
                 {this.portfolioItems()}
             </div>

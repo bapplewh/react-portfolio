@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default class PortfolioItem extends Component {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
             portfolioItemClass: ""
@@ -11,7 +11,7 @@ export default class PortfolioItem extends Component {
     }
 
     handleMouseEnter() {
-        this.setState({ portfolioItemClass: 'image-blur' });
+        this.setState({ portfolioItemClass: "image-blur" });
     }
 
     handleMouseLeave() {

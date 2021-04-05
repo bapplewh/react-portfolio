@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 
 import BlogItem from "../blog/blog-item";
+import BlogModal from "../modals/blog-modal";
+
 
 class Blog extends Component {
     constructor(){
@@ -13,36 +15,62 @@ class Blog extends Component {
             blogItems: [],
             totalCount: 0,
             currentPage: 0,
-            isLoading: true
+            isLoading: true,
+            blogModalIsOpen: false
         };
 
         this.getBlogItems =  this.getBlogItems.bind(this);
-        this.activateInfiniteScroll();
+        this.onScroll = this.onScroll.bind(this);
+        window.addEventListener("scroll", this.onScroll, false);
+        this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+        this.handleSuccessfulNewBlogSubmission = this.handleSuccessfulNewBlogSubmission.bind(this);
     }
 
-    activateInfiniteScroll() {
-        window.onscroll = () => {
-            if (
-                this.state.isLoading || 
-                this.state.blogItems.length === this.state.totalCount) {
-                    return;
-                }
+    handleSuccessfulNewBlogSubmission(blog) {
+        this.setState({
+            blogModalIsOpen: false,
+            blogItems: [blog].concat(this.state.blogItems)
+        });
+    }
 
-            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-                this.getBlogItems();
-            }
-        };
+    handleModalClose() {
+        this.setState({
+            blogModalIsOpen: false
+        });
+    }
+
+    handleNewBlogClick() {
+        this.setState({
+            blogModalIsOpen: true
+        });
+    }
+
+    onScroll() {
+        if (
+            this.state.isLoading || 
+            this.state.blogItems.length === this.state.totalCount
+        ) {
+            return;
+        }
+
+        if (
+            window.innerHeight + document.documentElement.scrollTop === 
+            document.documentElement.offsetHeight
+        ) {
+            this.getBlogItems();
+        }
     }
 
     getBlogItems() {
         this.setState({
             currentPage: this.state.currentPage + 1
-        })
+        });
 
         axios.get(
             `https://brookebarker.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`, 
-            { withCredentials: true 
-        })
+            { withCredentials: true }
+        )
         .then(response => {
             console.log("getting", response.data);
             this.setState({
@@ -60,6 +88,10 @@ class Blog extends Component {
         this.getBlogItems();
     }
 
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.onScroll, false);
+    }
+
     render() {
         const blogRecords = this.state.blogItems.map(blogItem => {
             return <BlogItem key={blogItem.id} blogItem={blogItem} />;
@@ -67,6 +99,16 @@ class Blog extends Component {
 
         return (
             <div className="blog-container">
+                <BlogModal 
+                    handleSuccessfulNewBlogSubmission={this.handleSuccessfulNewBlogSubmission}
+                    handleModalClose={this.handleModalClose} 
+                    modalIsOpen={this.state.blogModalIsOpen} 
+                />
+
+                <div className="new-blog-link">
+                    <a onClick={this.handleNewBlogClick}>Open</a>
+                </div>
+
                 <div className="content-container">
                     {blogRecords}
                 </div>

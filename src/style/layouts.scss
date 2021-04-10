@@ -1,0 +1,51 @@
+.content-page-wrapper {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - 84px);
+
+    .content-page-left-column {
+        display: flex;
+        justify-content: center;
+        align-items: left;
+        flex-direction: column;
+        padding: 80px;
+    
+        .page-headline {
+            color: $liteteal;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 2rem;
+        }
+    
+        .contact-bullet-points {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 21px;
+
+            .bullet-point-group {
+                display: flex;
+                align-items: center;
+
+                .icon-mobile {
+                    font-size: 1em;
+                    color: $liteteal;
+                    margin-left: 4px;
+                }
+
+                .icon {
+                    font-size: 1em;
+                    color: $liteteal;
+                }
+
+                .text-mobile {
+                    margin-left: 18px;
+                }
+
+                .text {
+                    margin-left: 15px;
+                }
+            }
+        }    
+    }
+}

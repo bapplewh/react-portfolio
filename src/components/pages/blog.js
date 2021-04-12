@@ -84,7 +84,7 @@ class Blog extends Component {
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getBlogItems();
     }
 

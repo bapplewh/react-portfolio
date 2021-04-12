@@ -42,7 +42,7 @@ export default class BlogForm extends Component {
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.editMode) {
             this.setState({
                 id: this.props.blog.id,
